@@ -1,0 +1,156 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load sidebar %}
+{% load mptt_tags %}
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block content %}
+
+<section class="single-blog-area">
+    <div class="container">
+
+        <section class="row">
+
+            <div class="col-md-12">
+
+                <div class="border-top">
+                    <div class="col-md-8">
+                        <div class="blog-area">
+
+                            <div class="blog-area-part">
+
+                                <h2>{{post.title}}</h2>
+                                <div class="single-content">
+
+                                    <div>
+                                        <span> Category: <a href="{{post.category.get_absolute_url}}">{{post.category}}</a></span>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        {% if post.tags.exists %}
+                                        <span>
+                                        Tags:
+                                        {% for tag in post.tags.all %}
+                                            <a href="{{ tag.get_absolute_url }}">{{tag.title}}</a>
+                                        {% endfor %}
+                                    </span>
+                                        {% endif %}
+                                    </div>
+                                    <br>
+
+                                    <span>
+                                        Views: {{ post.views }}
+                                     </span>
+
+
+                                    {{post.content|safe}}
+
+                                </div>
+
+                            </div>
+
+                            <div class="commententries ">
+                                <h3>Comments</h3>
+                                {% recursetree comments %}
+                                <div id="{{ node.id }}" >
+                                    <article class="comment ">
+
+                                        <div class="author-name">
+                                            <h5><a href="#">{{node.author.username}}</a></h5>
+                                            <p>{{node.created_at}}</p>
+                                        </div>
+                                        <div class="comment-body">
+                                            {{node.content}}
+                                        </div>
+                                        <div class="reply">
+                                            {% if node.level < 3 %}
+                                            <button class="button" onclick="myFunction({{ node.id }})">Reply</button>
+                                            {% endif %}
+                                        </div>
+
+                                    </article>
+
+
+                                    {% if not node.is_leaf_node %}
+                                    <div style=" margin-left: 96px;">
+                                        {{ children }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                {% endrecursetree %}
+                                {% if user.is_authenticated %}
+                                <form  method="post">
+                                    {% csrf_token %}
+                                    <div class="comment">
+                                        {{ form.as_p }}
+                                    </div>
+                                    <div class="post">
+                                        <input type="submit" value="Post">
+                                    </div>
+                                </form>
+                                {% else %}
+                                <div>
+                                    <h3>Please login to post a comment</h3>
+                                </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <h2 class="sidebar-title">Search</h2>
+                        <form action="{% url 'search'%}" method="get">
+                            <input type="text" name="s" placeholder="Search...">
+                            <input style=" margin-top: 30px;" type="submit" value="Search">
+                        </form>
+                        {% get_popular %}
+                        {% get_tags %}
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </section>
+
+        <script>
+  function formExit() {
+    document.getElementById("newForm").remove();
+  }
+
+ function myFunction(id) {
+    if (document.contains(document.getElementById("newForm"))) {
+      document.getElementById("newForm").remove();
+    }
+
+    var d1 = document.getElementById(id);
+    d1.insertAdjacentHTML('afterend',
+      '<form id="newForm" class="form-insert py-2" method="post"> \
+                <div class="d-flex justify-content-between"><div><button type="button" class="btn btn-outline-secondary" onclick="formExit()"">Close</button></div></div> \
+                \
+                \
+                <select name="parent" class="d-none" id="id_parentt" style="display: none;"> \
+                <option value="' + id + '" selected="' + id + '"></option> \
+                </select> \
+                \
+                \
+               \
+                <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea> \
+                {% csrf_token %} \
+                <button type="submit" class="btn btn-primary btn-lg btn-block ">POST</button> \
+              </form>');
+
+    //document.querySelector('#id_parentt [value="' + id + '"]').selected = true;
+  }
+
+  $('#myForm').trigger("reset");
+</script>
+    </div>
+</section>
+{% endblock %}
+

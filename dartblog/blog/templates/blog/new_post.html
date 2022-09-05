@@ -1,0 +1,14 @@
+<div class="single-post-big">
+    <div class="big-image">
+        <img src="{{ post.photo.url }}" alt="{{post.title}}">
+    </div>
+    <div class="big-text">
+        <h3><a href="{{ post.get_absolute_url }}">{{post.title}}</a></h3>
+        <p>{{ post.content|truncatewords_html:80|safe }}
+        <h4>
+        <span>{{post.created_at|date:"h:m d.m.Y "}}</span>
+        <span class="author">Posted By: <span class="author-name">{{post.author}}</span></span>
+    </h4>
+
+    </div>
+</div>

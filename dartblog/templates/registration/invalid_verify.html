@@ -1,0 +1,17 @@
+{% extends 'base_log.html'%}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <p>The link is not correct, please try again(</p>
+  <a href="{% url 'login' %}">login</a>
+</div>
+
+
+{% endblock %}
+
