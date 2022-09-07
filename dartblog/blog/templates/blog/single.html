@@ -65,7 +65,7 @@
                                             {{node.content}}
                                         </div>
                                         <div class="reply">
-                                            {% if node.level < 3 %}
+                                            {% if node.level < 3 and user.is_authenticated %}
                                             <button class="button" onclick="myFunction({{ node.id }})">Reply</button>
                                             {% endif %}
                                         </div>
