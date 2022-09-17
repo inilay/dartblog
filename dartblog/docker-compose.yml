@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+     - POSTGRES_DB=dart_db
+     - POSTGRES_USER=dart_user
+     - POSTGRES_PASSWORD=qe44iaEB6LZtpXb
+    volumes:
+      - db_volume:/var/lib/postgresql/data/
+    ports:
+      - 49089:49089
+
+  blog:
+    build: .
+    container_name: dart_blog
+    command: python /usr/src/dj_blog/manage.py runserver 0.0.0.0:49088
+    volumes:
+      - blog_volume:/usr/src/dj_blog
+    ports:
+      - 49088:49088
+    depends_on:
+      - db
+
+volumes:
+    blog_volume:
+    db_volume:
