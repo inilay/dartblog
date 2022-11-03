@@ -33,14 +33,14 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'blog.User'
 
 # EMAIL
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = 2525
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER ='pillaw@mail.ru'
-EMAIL_HOST_PASSWORD = 'GuUiXrafhqHFde8vPkFV'
+# EMAIL_HOST = 'smtp.mail.ru'
+# EMAIL_PORT = 2525
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+# EMAIL_HOST_USER ='pillaw@mail.ru'
+# EMAIL_HOST_PASSWORD = '**********'
 
 
 # Application definition
@@ -95,10 +95,21 @@ WSGI_APPLICATION = 'dartblog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+# }
+
+ DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'dart_db',
+         'USER': 'dart_user',
+         'PASSWORD': 'qe44iaEB6LZtpXb',
+         'HOST': 'db',
+         'PORT': 49089,
     }
 }
 
